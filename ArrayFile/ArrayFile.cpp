@@ -10,23 +10,22 @@
 
 using namespace std;
 
-typedef double* pDouble;
+//typedef double* pDouble;
+
 /*
-*   ConsoleInputArrayDouble
-*   
+*   ConsoleInputArrayDouble  
 */
 int ConsoleInputSizeArray(const int sizeMax)
 {
     int size = 0; 
     do {
-        cout << " Input size Array ( 0< 1 < " << sizeMax << " ) ";
+        cout << " Input size Array ( 0; " << sizeMax << " ) ";
         cin >> size;
     } while (size <= 0 || size >= sizeMax);
     return size;
 }
 /*
 *   ConsoleInputArrayDouble
-*
 */
 int ConsoleInputArray(int sizeMax, double A[])
 {
@@ -57,7 +56,7 @@ int RndInputArray(int sizeMax, double A[])
     return size;
 }
 
-int ConsoleInputDynamicArrayNew(int sizeMax, pDouble &pA)
+/*int ConsoleInputDynamicArrayNew(int sizeMax, pDouble& pA)
 {
     int size = ConsoleInputSizeArray(sizeMax);
     pA = new double[size];
@@ -66,9 +65,19 @@ int ConsoleInputDynamicArrayNew(int sizeMax, pDouble &pA)
         cout << " Array[ " << i << "] "; cin >> pA[i];
     }
     return size;
+}*/
+
+void ConsoleInputDynamicArrayNew(int size, double* &pA)
+{
+    pA = new double[size];
+    for (int i = 0; i < size; i++)
+    {
+        cout << " Array[ " << i << " ] ";
+        cin >> pA[i];
+    }
 }
 
-int ConsoleInputDynamicArray_calloc(int sizeMax, pDouble& pA)
+/*int ConsoleInputDynamicArray_calloc(int sizeMax, pDouble& pA)
 {
     int size = ConsoleInputSizeArray(sizeMax);
     pA = (double*)calloc(size, sizeof(double));      // pA = (double*)malloc(size * sizeof(double)); 
@@ -77,22 +86,33 @@ int ConsoleInputDynamicArray_calloc(int sizeMax, pDouble& pA)
         cout << " Array[ " << i << "] "; cin >> pA[i];
     }
     return size;
+}*/
+
+void ConsoleInputVector(int size, vector<double> &A)
+{
+//    int size = ConsoleInputSizeArray(sizeMax);
+    double d;
+    for (int i = 0; i < size; i++)
+    {
+        cout << " Array[ " << i << "] ";
+        cin >> d;
+        A.push_back(d);
+    }
 }
 
-void ConsoleInputVector(int sizeMax, vector<double> &A)
+/*
+* ConsoleWriteArray
+*/
+void ConsoleWriteArray(int size, double* pA)
 {
-    int size = ConsoleInputSizeArray(sizeMax);
-    double d;
-    for (int i = 0; i < size; i++) {
-        cout << " Array[ " << i << "] "; cin >> d; A.push_back(d);
-    }
-    return ;
+    for (int i = 0; i < size; i++)
+        cout << pA[i] << "\t";
+    cout << endl;
 }
 
 
 /*
 *  WriteArrayTextFile 
-*
 */
 
 void WriteArrayTextFile(int n, double *arr, const char *fileName )
@@ -104,11 +124,11 @@ void WriteArrayTextFile(int n, double *arr, const char *fileName )
         fout << arr[i] << "   ";
     fout.close(); //
 }
+
 /*
 *  ReadArrayTextFile
 *
 */
-
 
 int ReadArrayTextFile(int n, double* arr, const char* fileName)
 {
@@ -124,7 +144,6 @@ int ReadArrayTextFile(int n, double* arr, const char* fileName)
     return size;
     
 }
-
 
 void WriteArrayBinFile(int n, double* arr, const char* fileName)
 {
@@ -153,11 +172,11 @@ int ReadArrayBinFile(int n, double* arr, const char* fileName)
 
 void ShowMainMenu()
 {
-    cout << "    Main Menu  \n";
     cout << "    1.  Task 1  \n";
     cout << "    2.  Task 2  \n";
     cout << "    3.  Task 3  \n";
-  }
+    cout << "    0. Exit  \n";
+}
 
 void MenuTask()
 {
@@ -166,7 +185,7 @@ void MenuTask()
     cout << "    2.  Dynamic array 1 \n";
     cout << "    3.  Dynamic array 2  new \n"; 
     cout << "    4.  Dynamic array : vector \n";
-    cout << "    5.  Exit \n";
+    cout << "    0.  Exit \n";
 }
 
 void MenuInput()
@@ -176,7 +195,7 @@ void MenuInput()
     cout << "    2.  Console - size, array - random \n";
     cout << "    3.  File 1.txt \n";
     cout << "    4.  bb    \n";
-    cout << "    5.  Exit \n";
+    cout << "    0.  Exit \n";
 }
 
 
@@ -189,18 +208,18 @@ void MenuInput()
 *  A - in 
 *  B, C - out 
 */
-void  TestVariant(int N, double* A, double* B, double* C) {
+/*void  TestVariant(int N, double* A, double* B, double* C) {
     for (int i = 0; i < N; i++) {
         B[i] = A[2 * i];
         C[i] = A[2 * i + 1];
     }
-}
+}*/
 /*
 *  Task  Var
 * 
 * 
 */
-void TaskV()
+/*void TaskV()
 {
     char ch = '5';
     do {
@@ -218,9 +237,9 @@ void TaskV()
         ch = getchar();
         } while (ch != 27);
     
-}
+}*/
 
-void ArrayLocal()
+/*void ArrayLocal()
 {
     double A[1000], B[500], C[500];
     int n;
@@ -240,17 +259,182 @@ void ArrayLocal()
         ch = getchar();
     } while (ch != 27);
 
+}*/
+
+void Task1()
+{
+    double* A;
+    cout << "			Ex_1			" << endl;
+    int n = ConsoleInputSizeArray(1000);
+    cout << "Input array A" << endl;
+    ConsoleInputDynamicArrayNew(n, A);
+    double* C = new double[n];
+
+    cout << endl;
+
+    double st2 = 1;
+    for (int i = 0; i < n; i++)
+    {
+        C[i] = A[i] * st2;
+        st2 *= 2;
+    }
+
+    /*	for (int i = 0; i < N; i++)
+            C[i] = pow(2, i) * A[i];*/
+
+    cout << endl;
+    cout << "Final Result" << endl;
+    ConsoleWriteArray(n, C);
+
+    cout << endl;
+
+    delete[] A;
+    delete[] C;
 }
 
+void Task2()
+{
+    cout << "			Ex_2			" << endl;
+
+    double c, d;
+
+    int n = ConsoleInputSizeArray(1000);
+    
+    cout << "Input array A" << endl;
+    double * A = new double[n];
+    ConsoleInputDynamicArrayNew(n, A);
+
+    cout << "Input diapason: " << endl;
+    do
+    {
+        cout << "Input c: ";
+        cin >> c;
+        cout << "Input d: ";
+        cin >> d;
+    } while (d < c);
+
+
+    double max = 0;
+    bool f = false;
+
+    double* ptr = A;
+
+    for (int i = 0; i < n; i++, ptr++)
+    {
+        if ((int)(*ptr) % 2 == 0)
+            break;
+        if (c <= (*ptr) && (*ptr) <= d)
+        {
+            if (f)
+            {
+                if (max < (*ptr))
+                    max = (*ptr);
+            }
+            else
+            {
+                max = (*ptr);
+                f = true;
+            }
+        }
+    }
+    if (f)
+        cout << "max = " << max << endl;
+    else
+        cout << "No maximum in diaposon" << endl;
+    delete[] A;
+
+    cout << endl;
+
+    /*	for (int i = 0; i < N; i++)
+        {
+            if ((int)A[i] % 2 == 0)
+                break;
+            if (c <= A[i] && A[i] <= d)
+            {
+                if (f)
+                {
+                    if (max < A[i])
+                        max = A[i];
+                }
+                else
+                {
+                    max = A[i];
+                    f = true;
+                }
+            }
+        }
+    */
+}
+
+void Task3()
+{
+    cout << "			Ex_3			" << endl;
+
+    double Sum = 0, Dob = 1;
+    bool f = false;
+    int n = ConsoleInputSizeArray(500);
+
+    cout << "Input array A" << endl;
+    double* A = new double[n];
+    ConsoleInputDynamicArrayNew(n, A);
+
+    for (int i = 0; i < n; i++)
+    {
+        int count = 0;
+        for (int j = 0; j < n; j++)
+            if (A[i] == A[j])
+                count++;
+        if (count > 1)
+            Sum += A[i];
+        else
+        {
+            Dob *= A[i];
+            f = true;
+        }
+    }
+
+    cout << endl;
+
+    cout << "Final Result" << endl;
+    cout << "Sum: " << Sum << endl;
+    if (f)
+        cout << "Multiply: " << Dob << endl;
+    else
+        cout << "No elements for multiply(" << endl;
+
+    cout << endl;
+
+    delete [] A;
+}
 
 int main()
 { 
-    
-    
-    
     const int MAX_SIZE = 560;
-    std::cout << "Hello World!\n";
-    ShowMainMenu();
+    int task;
+    do
+    {
+        ShowMainMenu();
+        cin >> task;
+        switch (task)
+        {
+        case 1:
+            Task1();
+            break;
+        case 2:
+            Task2();
+            break;
+        case 3:
+            Task3();
+            break;
+
+        default:
+            cout << "Select task 1 to 3" << endl;
+            cout << "0 - Exit" << endl;
+            break;
+        }
+    } while (task != 0);
+
+    
     /*
     double A[MAX_SIZE], B[MAX_SIZE],C[MAX_SIZE];
     int n,m;
@@ -272,7 +456,7 @@ int main()
         cout << v << "   ";
     }
 */
-    TaskV();
+    //TaskV();
     return 1;
 
 }
