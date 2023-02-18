@@ -5,6 +5,7 @@
 #include <fstream>
 #include <ios>
 #include <vector>
+#include <cstdlib>
 
 #include <time.h>
 
@@ -77,7 +78,7 @@ void ConsoleInputDynamicArrayNew(int size, double* &pA)
     }
 }
 
-/*int ConsoleInputDynamicArray_calloc(int sizeMax, pDouble& pA)
+int ConsoleInputDynamicArray_calloc(int sizeMax, double*& pA)
 {
     int size = ConsoleInputSizeArray(sizeMax);
     pA = (double*)calloc(size, sizeof(double));      // pA = (double*)malloc(size * sizeof(double)); 
@@ -86,7 +87,7 @@ void ConsoleInputDynamicArrayNew(int size, double* &pA)
         cout << " Array[ " << i << "] "; cin >> pA[i];
     }
     return size;
-}*/
+}
 
 void ConsoleInputVector(int size, vector<double> &A)
 {
@@ -99,6 +100,28 @@ void ConsoleInputVector(int size, vector<double> &A)
         A.push_back(d);
     }
 }
+
+/*void ArrayLocal()
+{
+    double A[1000], B[500], C[500];
+    int n;
+    char ch = '5';
+    do {
+        system("cls");
+        MenuTask();
+        ch = getchar();
+        getchar();
+        switch (ch) {
+        case '1': cout << " 1 "; break;
+        case '2': cout << " 2 "; break;
+            //
+        case '5': return;
+        }
+        cout << " Press any key and enter\n";
+        ch = getchar();
+    } while (ch != 27);
+
+}*/
 
 /*
 * ConsoleWriteArray
@@ -170,6 +193,19 @@ int ReadArrayBinFile(int n, double* arr, const char* fileName)
     return size;
 }
 
+/*int Random(int size, double*& arr)
+{
+    srand(time(NULL));
+
+    for (int i = 0; i < size; i++) 
+    {
+        arr[i] = (rand() % size) + 1;
+        cout << arr[i];
+        cout << " ";
+    }
+    return 1;
+}*/
+
 void ShowMainMenu()
 {
     cout << "    1.  Task 1  \n";
@@ -182,7 +218,7 @@ void MenuTask()
 {
     cout << "     Menu Task   \n";
     cout << "    1.  Local array  \n";
-    cout << "    2.  Dynamic array 1 \n";
+    cout << "    2.  Dynamic array 1 (calloc)\n";
     cout << "    3.  Dynamic array 2  new \n"; 
     cout << "    4.  Dynamic array : vector \n";
     cout << "    0.  Exit \n";
@@ -194,7 +230,7 @@ void MenuInput()
     cout << "    1.  Console all \n";
     cout << "    2.  Console - size, array - random \n";
     cout << "    3.  File 1.txt \n";
-    cout << "    4.  bb    \n";
+    cout << "    4.  bin    \n";
     cout << "    0.  Exit \n";
 }
 
@@ -239,172 +275,231 @@ void MenuInput()
     
 }*/
 
-/*void ArrayLocal()
-{
-    double A[1000], B[500], C[500];
-    int n;
-    char ch = '5';
-    do {
-        system("cls");
-        MenuTask();
-        ch = getchar();
-        getchar();
-        switch (ch) {
-        case '1': cout << " 1 "; break;
-        case '2': cout << " 2 "; break;
-            //
-        case '5': return;
-        }
-        cout << " Press any key and enter\n";
-        ch = getchar();
-    } while (ch != 27);
 
-}*/
 
 void Task1()
 {
-    double* A;
     cout << "			Ex_1			" << endl;
-    int n = ConsoleInputSizeArray(1000);
-    cout << "Input array A" << endl;
-    ConsoleInputDynamicArrayNew(n, A);
-    double* C = new double[n];
-
-    cout << endl;
-
-    double st2 = 1;
-    for (int i = 0; i < n; i++)
+    double* A;
+    int tmp;
+    do
     {
-        C[i] = A[i] * st2;
-        st2 *= 2;
-    }
+        MenuInput();
+        cin >> tmp;
+        switch (tmp)
+        {
+        case 1:
+        {
+            int n = ConsoleInputSizeArray(1000);
+            ConsoleInputDynamicArrayNew(n, A);
+            double* C = new double[n];
 
-    /*	for (int i = 0; i < N; i++)
-            C[i] = pow(2, i) * A[i];*/
+            cout << endl;
 
-    cout << endl;
-    cout << "Final Result" << endl;
-    ConsoleWriteArray(n, C);
+            double st2 = 1;
+            for (int i = 0; i < n; i++)
+            {
+                C[i] = A[i] * st2;
+                st2 *= 2;
+            }
 
-    cout << endl;
+            //	for (int i = 0; i < N; i++)
+               //     C[i] = pow(2, i) * A[i];
 
-    delete[] A;
-    delete[] C;
+            cout << endl;
+            cout << "Final Result" << endl;
+            ConsoleWriteArray(n, C);
+
+            cout << endl;
+
+            delete[] A;
+            delete[] C;
+            break;
+        }
+        case 2:
+        {
+            int n = ConsoleInputSizeArray(1000);
+        }
+            break;
+        case 3:
+            break;
+        case 4:
+            break;
+
+        default:
+            cout << "Select options for 1 to 4" << endl;
+            cout << "0 - Exit" << endl;
+            break;
+        }
+    } while (tmp != 0);
+    
 }
 
 void Task2()
 {
     cout << "			Ex_2			" << endl;
 
-    double c, d;
-
-    int n = ConsoleInputSizeArray(1000);
-    
-    cout << "Input array A" << endl;
-    double * A = new double[n];
-    ConsoleInputDynamicArrayNew(n, A);
-
-    cout << "Input diapason: " << endl;
+    int tmp;
     do
     {
-        cout << "Input c: ";
-        cin >> c;
-        cout << "Input d: ";
-        cin >> d;
-    } while (d < c);
-
-
-    double max = 0;
-    bool f = false;
-
-    double* ptr = A;
-
-    for (int i = 0; i < n; i++, ptr++)
-    {
-        if ((int)(*ptr) % 2 == 0)
-            break;
-        if (c <= (*ptr) && (*ptr) <= d)
+        MenuInput();
+        cin >> tmp;
+        switch (tmp)
         {
+        case 1:
+        {
+            double c, d;
+
+            int n = ConsoleInputSizeArray(1000);
+
+            cout << "Input array A" << endl;
+            double* A = new double[n];
+            ConsoleInputDynamicArrayNew(n, A);
+
+            cout << "Input diapason: " << endl;
+            do
+            {
+                cout << "Input c: ";
+                cin >> c;
+                cout << "Input d: ";
+                cin >> d;
+            } while (d < c);
+
+
+            double max = 0;
+            bool f = false;
+
+            double* ptr = A;
+
+            for (int i = 0; i < n; i++, ptr++)
+            {
+                if ((int)(*ptr) % 2 == 0)
+                    break;
+                if (c <= (*ptr) && (*ptr) <= d)
+                {
+                    if (f)
+                    {
+                        if (max < (*ptr))
+                            max = (*ptr);
+                    }
+                    else
+                    {
+                        max = (*ptr);
+                        f = true;
+                    }
+                }
+            }
             if (f)
-            {
-                if (max < (*ptr))
-                    max = (*ptr);
-            }
+                cout << "max = " << max << endl;
             else
-            {
-                max = (*ptr);
-                f = true;
-            }
-        }
-    }
-    if (f)
-        cout << "max = " << max << endl;
-    else
-        cout << "No maximum in diaposon" << endl;
-    delete[] A;
+                cout << "No maximum in diaposon" << endl;
+            delete[] A;
 
-    cout << endl;
+            cout << endl;
 
-    /*	for (int i = 0; i < N; i++)
-        {
-            if ((int)A[i] % 2 == 0)
-                break;
-            if (c <= A[i] && A[i] <= d)
-            {
-                if (f)
+            /*	for (int i = 0; i < N; i++)
                 {
-                    if (max < A[i])
-                        max = A[i];
+                    if ((int)A[i] % 2 == 0)
+                        break;
+                    if (c <= A[i] && A[i] <= d)
+                    {
+                        if (f)
+                        {
+                            if (max < A[i])
+                                max = A[i];
+                        }
+                        else
+                        {
+                            max = A[i];
+                            f = true;
+                        }
+                    }
                 }
-                else
-                {
-                    max = A[i];
-                    f = true;
-                }
-            }
+            */
+            break;
         }
-    */
+        case 2:
+            break;
+        case 3:
+            break;
+        case 4:
+            break;
+
+        default:
+            cout << "Select task for 1 to 4" << endl;
+            cout << "0 - Exit" << endl;
+            break;
+        }
+    } while (tmp != 0);
+
+    
 }
 
 void Task3()
 {
     cout << "			Ex_3			" << endl;
 
-    double Sum = 0, Dob = 1;
-    bool f = false;
-    int n = ConsoleInputSizeArray(500);
-
-    cout << "Input array A" << endl;
-    double* A = new double[n];
-    ConsoleInputDynamicArrayNew(n, A);
-
-    for (int i = 0; i < n; i++)
+    int tmp;
+    do
     {
-        int count = 0;
-        for (int j = 0; j < n; j++)
-            if (A[i] == A[j])
-                count++;
-        if (count > 1)
-            Sum += A[i];
-        else
+        MenuInput();
+        cin >> tmp;
+        switch (tmp)
         {
-            Dob *= A[i];
-            f = true;
+        case 1:
+        {
+            double Sum = 0, Dob = 1;
+            bool f = false;
+            int n = ConsoleInputSizeArray(500);
+
+            cout << "Input array A" << endl;
+            double* A = new double[n];
+            ConsoleInputDynamicArrayNew(n, A);
+
+            for (int i = 0; i < n; i++)
+            {
+                int count = 0;
+                for (int j = 0; j < n; j++)
+                    if (A[i] == A[j])
+                        count++;
+                if (count > 1)
+                    Sum += A[i];
+                else
+                {
+                    Dob *= A[i];
+                    f = true;
+                }
+            }
+
+            cout << endl;
+
+            cout << "Final Result" << endl;
+            cout << "Sum: " << Sum << endl;
+            if (f)
+                cout << "Multiply: " << Dob << endl;
+            else
+                cout << "No elements for multiply(" << endl;
+
+            cout << endl;
+
+            delete[] A;
+            break;
         }
-    }
+        case 2:
+            break;
+        case 3:
+            break;
+        case 4:
+            break;
 
-    cout << endl;
+        default:
+            cout << "Select task for 1 to 4" << endl;
+            cout << "0 - Exit" << endl;
+            break;
+        }
+    } while (tmp != 0);
 
-    cout << "Final Result" << endl;
-    cout << "Sum: " << Sum << endl;
-    if (f)
-        cout << "Multiply: " << Dob << endl;
-    else
-        cout << "No elements for multiply(" << endl;
-
-    cout << endl;
-
-    delete [] A;
+    
 }
 
 int main()
@@ -428,7 +523,7 @@ int main()
             break;
 
         default:
-            cout << "Select task 1 to 3" << endl;
+            cout << "Select task for 1 to 3" << endl;
             cout << "0 - Exit" << endl;
             break;
         }
