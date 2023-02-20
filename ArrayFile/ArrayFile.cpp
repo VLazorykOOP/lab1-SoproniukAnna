@@ -53,6 +53,7 @@ int RndInputArray(int size, double A[])
         A[i] = A[i] / (1.0 + r2);
         cout << A[i] << "   ";
     }
+    cout << endl;
     return size;
 }
 
@@ -163,7 +164,7 @@ void ReadArrayTextFile(int &n, double* &arr, const char* fileName)
     fin.close();
 }
 
-void WriteArrayBinFile(int n, double* arr, const char* fileName)
+/*void WriteArrayBinFile(int n, double* arr, const char* fileName)
 {
     //ios_base
     ofstream bfout(fileName, ios_base::binary);
@@ -172,9 +173,18 @@ void WriteArrayBinFile(int n, double* arr, const char* fileName)
     std::streamsize  cn = static_cast<std::streamsize>(n) * sizeof(double);
     bfout.write((const char*)arr, cn);
     bfout.close();
+}*/
+void WriteArrayBinFile(int n, double* arr, const char* fileName)
+{
+    ofstream fout(fileName, ios_base::binary);
+    if (fout.fail()) return;
+    fout << n << endl;
+    for (int i = 0; i < n; i++)
+        fout << arr[i] << "   ";
+    fout.close(); //
 }
 
-void ReadArrayBinFile(int &n, double* &arr, const char* fileName)
+/*void ReadArrayBinFile(int& n, double*& arr, const char* fileName)
 {
     ifstream bfin(fileName, ios_base::binary);
     if (bfin.fail()) return;
@@ -182,6 +192,17 @@ void ReadArrayBinFile(int &n, double* &arr, const char* fileName)
     bfin.read((char*)&n, sizeof(int));
     bfin.read((char*)arr, static_cast<std::streamsize>(n) * sizeof(double));
     bfin.close();
+}*/
+void ReadArrayBinFile(int& n, double*& arr, const char* fileName)
+{
+    ifstream fin(fileName, ios_base::binary);
+    if (fin.fail()) return;
+    delete[] arr;
+    fin >> n;
+    arr = new double[n];
+    for (int i = 0; i < n; i++)
+        fin >> arr[i];
+    fin.close();
 }
 
 void ShowMainMenu()
@@ -359,6 +380,7 @@ int main()
         {
             n = ConsoleInputSizeArray(MAX_SIZE);
             ConsoleInputDynamicArrayNew(n, A);
+
             break;
         }
         case 2:
@@ -374,6 +396,7 @@ int main()
             break;
         case 4:
             ReadArrayBinFile(n, A, "1.bin");
+            cout << "n = " << n << endl;
             ConsoleWriteArray(n, A);
             break;
 
@@ -390,6 +413,8 @@ int main()
         cin >> select;
         switch (select)
         {
+        case 0:
+            break;
         case 1:
             Task1(n, A, C);
             cout << endl;
