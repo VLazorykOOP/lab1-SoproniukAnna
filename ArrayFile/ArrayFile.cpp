@@ -205,12 +205,35 @@ void ReadArrayBinFile(int& n, double*& arr, const char* fileName)
     fin.close();
 }
 
-void ShowMainMenu()
+int MainMenu(bool &f)
 {
-    cout << "    1.  Task 1  \n";
-    cout << "    2.  Task 2  \n";
-    cout << "    3.  Task 3  \n";
-    cout << "    0. Exit  \n";
+    int select;
+    while (true)
+    {
+        system("cls");
+        cout << "    1.  Console all \n";
+        cout << "    2.  Console - size, array - random \n";
+        cout << "    3.  File 1.txt \n";
+        cout << "    4.  bin    \n";
+        if (f)
+        {
+            cout << "    5.  Task 1  \n";
+            cout << "    6.  Task 2  \n";
+            cout << "    7.  Task 3  \n";
+        }
+        cout << "    0. Exit  \n";
+        cin >> select;
+        if (f)
+        {
+            if (select >= 0 && select < 8)
+                return select;
+        }
+        else if (select >= 0 && select < 5)
+        {
+            f = true;
+            return select;
+        }
+    }
 }
 
 /*void MenuTask()
@@ -223,7 +246,7 @@ void ShowMainMenu()
     cout << "    0.  Exit \n";
 }*/
 
-void MenuInput()
+/*void MenuInput()
 {
     cout << "     Menu Input   \n";
     cout << "    1.  Console all \n";
@@ -231,7 +254,7 @@ void MenuInput()
     cout << "    3.  File 1.txt \n";
     cout << "    4.  bin    \n";
     cout << "    0.  Exit \n";
-}
+}*/
 
 
 /*
@@ -366,13 +389,14 @@ int main()
 {
     const int MAX_SIZE = 560;
     double* A = NULL, *C = NULL;
-    int n;
+    int n = 0;
     int select;
+    bool fMenu = false;
 
     do
     {
-        MenuInput();
-        cin >> select;
+        //MenuInput();
+        select = MainMenu(fMenu);
         system("cls");
         switch (select)
         {
@@ -380,7 +404,8 @@ int main()
         {
             n = ConsoleInputSizeArray(MAX_SIZE);
             ConsoleInputDynamicArrayNew(n, A);
-
+            system("pause");
+            WriteArrayBinFile(n, A, "1.bin");
             break;
         }
         case 2:
@@ -388,56 +413,41 @@ int main()
             n = ConsoleInputSizeArray(MAX_SIZE);
             A = new double[n];
             RndInputArray(n, A);
+            system("pause");
+            WriteArrayBinFile(n, A, "1.bin");
         }
         break;
         case 3:
             ReadArrayTextFile(n, A, "1.txt");
             ConsoleWriteArray(n, A);
+            system("pause");
             break;
         case 4:
             ReadArrayBinFile(n, A, "1.bin");
             cout << "n = " << n << endl;
             ConsoleWriteArray(n, A);
+            system("pause");
             break;
-
-        default:
-            cout << "Select options for 1 to 4" << endl;
-            cout << "0 - Exit" << endl;
-            break;
-        }
-    } while (select != 0);
-
-    do
-    {
-        ShowMainMenu();
-        cin >> select;
-        switch (select)
-        {
-        case 0:
-            break;
-        case 1:
+        case 5:
             Task1(n, A, C);
             cout << endl;
             cout << "Final Result" << endl;
             ConsoleWriteArray(n, C);
+            system("pause");
             break;
-        case 2:
+        case 6:
             Task2(n, A);
+            system("pause");
             break;
-        case 3:
+        case 7:
             Task3(n, A);
-            break;
-
-        default:
-            cout << "Select task for 1 to 3" << endl;
-            cout << "0 - Exit" << endl;
+            system("pause");
             break;
         }
     } while (select != 0);
 
     delete[] A;
     delete[] C;
-
 
     /*
     double A[MAX_SIZE], B[MAX_SIZE],C[MAX_SIZE];
