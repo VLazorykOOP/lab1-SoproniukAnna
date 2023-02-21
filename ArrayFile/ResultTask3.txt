@@ -1,0 +1,3 @@
+Size: 5
+Sum: 0
+Multiply: 9.47112e+06

@@ -141,9 +141,10 @@ void WriteArrayTextFile(int n, double* arr, const char* fileName)
 {
     ofstream fout(fileName);
     if (fout.fail()) return;
-    fout << n << endl;
+    fout << "Size: " << n << endl;
     for (int i = 0; i < n; i++)
         fout << arr[i] << "   ";
+    fout << endl;
     fout.close(); //
 }
 
@@ -178,9 +179,12 @@ void WriteArrayBinFile(int n, double* arr, const char* fileName)
 {
     ofstream fout(fileName, ios_base::binary);
     if (fout.fail()) return;
-    fout << n << endl;
+    fout << "Size: " << n << endl; 
+    fout << "Result: " << endl; 
+
     for (int i = 0; i < n; i++)
         fout << arr[i] << "   ";
+    fout << endl;
     fout.close(); //
 }
 
@@ -205,6 +209,26 @@ void ReadArrayBinFile(int& n, double*& arr, const char* fileName)
     fin.close();
 }
 
+void WriteArrayTextFileTask2(int n, double max, const char* fileName)
+{
+    ofstream fout(fileName);
+    if (fout.fail()) return;
+    fout << "Size: " << n << endl;
+    fout << "Maximum: " << max << endl;
+    fout << endl;
+    fout.close(); 
+}
+
+void WriteResultTextFileTask3(int n, double Sum, double Dob, const char* fileName)
+{
+    ofstream fout(fileName);
+    if (fout.fail()) return;
+    fout << "Size: " << n << endl;
+    fout << "Sum: " << Sum << endl;
+    fout << "Multiply: " << Dob << endl;
+    fout.close();
+}
+
 int MainMenu(bool &f)
 {
     int select;
@@ -214,14 +238,14 @@ int MainMenu(bool &f)
         cout << "    1.  Console all \n";
         cout << "    2.  Console - size, array - random \n";
         cout << "    3.  File 1.txt \n";
-        cout << "    4.  bin    \n";
+        cout << "    4.  Bin    \n";
         if (f)
         {
             cout << "    5.  Task 1  \n";
             cout << "    6.  Task 2  \n";
             cout << "    7.  Task 3  \n";
         }
-        cout << "    0. Exit  \n";
+        cout << "    0.  Exit  \n";
         cin >> select;
         if (f)
         {
@@ -309,6 +333,7 @@ void Task1(int size, double* A, double* &C)
         C[i] = A[i] * st2;
         st2 *= 2;
     }
+    WriteArrayBinFile(size, C, "ResultTask1.bin");
 }
 
 void Task2(int size, double* A)
@@ -347,11 +372,13 @@ void Task2(int size, double* A)
             }
         }
     }
+    
     if (f)
         cout << "max = " << max << endl;
     else
         cout << "No maximum in diaposon" << endl;
 
+    WriteArrayTextFileTask2(size, max, "ResultTask2.txt");
 }
 
 void Task3(int size, double* A)
@@ -375,6 +402,8 @@ void Task3(int size, double* A)
     }
 
     cout << endl;
+
+    WriteResultTextFileTask3(size, Sum, Dob, "ResultTask3.txt");
 
     cout << "Final Result" << endl;
     cout << "Sum: " << Sum << endl;
@@ -405,7 +434,7 @@ int main()
             n = ConsoleInputSizeArray(MAX_SIZE);
             ConsoleInputDynamicArrayNew(n, A);
             system("pause");
-            WriteArrayBinFile(n, A, "1.bin");
+           // WriteArrayBinFile(n, A, "1.bin");
             break;
         }
         case 2:
@@ -414,7 +443,7 @@ int main()
             A = new double[n];
             RndInputArray(n, A);
             system("pause");
-            WriteArrayBinFile(n, A, "1.bin");
+            //WriteArrayBinFile(n, A, "1.bin");
         }
         break;
         case 3:
